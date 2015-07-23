@@ -1,0 +1,6 @@
+tests/
+*.json
+*.csv
+*.xml
+*.pyc
+
