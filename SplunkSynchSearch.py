@@ -87,7 +87,7 @@ class SplunkSynchSearch(object):
 
         myhttpSearch = httplib2.Http(disable_ssl_certificate_validation=True)
         url = ''.join([self.server, '/', self.search_uri])
-        headers = {'Authorization': ''.join(['Splunk: ', self.sessionkey])}
+        headers = {'Authorization': ''.join(['Splunk ', self.sessionkey])}
         body = urllib.urlencode({'search': self.searchQuery})
         
         if outputmode == 'csv':

@@ -97,7 +97,7 @@ class SplunkAsynchSearch(object):
         self.jobsid = None
         myhttp = httplib2.Http(disable_ssl_certificate_validation=True)
         url = ''.join([self.server, '/', self.search_jobs_uri])
-        headers = {'Authorization': ''.join(['Splunk: ', self.sessionkey])}
+        headers = {'Authorization': ''.join(['Splunk ', self.sessionkey])}
         body = urllib.urlencode({'search': self.searchQuery})
         response = myhttp.request(url, 'POST', headers=headers, body=body)[1]
         sid = minidom.parseString(response).getElementsByTagName('sid')[0].childNodes[0].nodeValue
@@ -120,7 +120,7 @@ class SplunkAsynchSearch(object):
         if not self.jobstatus or self.jobstatus=='0':
             myhttp = httplib2.Http(disable_ssl_certificate_validation=True)
             url = ''.join([self.server, '/', self.search_jobs_uri, '/', self.jobsid])
-            headers = {'Authorization': ''.join(['Splunk: ', self.sessionkey])}
+            headers = {'Authorization': ''.join(['Splunk ', self.sessionkey])}
             statusXML = myhttp.request(url, 'GET', headers=headers)[1]
             status = re.compile('isDone">(0|1)')
             status = status.search(statusXML).groups()[0]
@@ -144,7 +144,7 @@ class SplunkAsynchSearch(object):
         if self.jobstatus:
             myhttp = httplib2.Http(disable_ssl_certificate_validation=True)
             url = ''.join([self.server, '/', self.search_jobs_uri, '/', self.jobsid])
-            headers = {'Authorization': ''.join(['Splunk: ', self.sessionkey])}
+            headers = {'Authorization': ''.join(['Splunk ', self.sessionkey])}
 
             if outputMode == 'json':
                 url = ''.join([url, '/results?output_mode=json&count=0'])
@@ -185,7 +185,7 @@ def main(argv):
 
     # Step one
     server = raw_input('Server name (eg. https://splunkserver:8089): ')
-    searchQuery = '* earliest=-24h | stats count by index'
+    searchQuery = '* earliest=-24h | stats count by sourcetype'
     print('We will use this search query: {query}'.format(query=searchQuery))
     sUser = raw_input('User name (eg. admin): ')
     sPass = raw_input('Password (eg. changeme): ')
